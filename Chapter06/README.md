@@ -566,17 +566,41 @@ $ aws ec2 run-instances --image-id ami-1853ac65 --instance-type t2.nano --key-na
 ```bash
 $ aws ec2 describe-instances --filters "Name=vpc-id,Values=vpc-05ebce82711fe6a19" --query "Reservations[*].Instances[*].{id:InstanceId,PublicIP:PublicIpAddress,PrivateIP:PrivateIpAddress,Subnet:SubnetId}" --output=table
 --------------------------------------------------------------------------------------------------------------------------
----------------------------------------------------------------------------------------
-|                                  DescribeInstances                                  |
-+---------------+----------------+----------------------------+-----------------------+
-|   PrivateIP   |   PublicIP     |          Subnet            |          id           |
-+---------------+----------------+----------------------------+-----------------------+
-|  192.168.0.163|  None          |  subnet-03f6120aec2780686  |  i-0b029d431795edb40  |
-|  192.168.1.213|  54.160.57.105 |  subnet-0a94a1e951e6a151c  |  i-0e9f5c78a1df96534  |
-+---------------+----------------+----------------------------+-----------------------+
+--------------------------------------------------------------------------------------
+|                                  DescribeInstances                                 |
++---------------+---------------+----------------------------+-----------------------+
+|   PrivateIP   |   PublicIP    |          Subnet            |          id           |
++---------------+---------------+----------------------------+-----------------------+
+|  192.168.0.163|  None         |  subnet-03f6120aec2780686  |  i-0b029d431795edb40  |
+|  192.168.1.213|  54.82.226.36 |  subnet-0a94a1e951e6a151c  |  i-0e9f5c78a1df96534  |
++---------------+---------------+----------------------------+-----------------------+
 
 ```
 SSH (use the -A option to forward your authentication info) to the public EC2 host from your computer:
 ```bash
-$ ssh -A ec2-user@54.160.57.105
+$ ssh -A ec2-user@54.82.226.36
+The authenticity of host '54.82.226.36 (54.82.226.36)' can't be established.
+ECDSA key fingerprint is SHA256:L0NsYsl/T1jKB62WAzGzBvDDfWU3fKCcOO6GWlNIzVA.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Warning: Permanently added '54.82.226.36' (ECDSA) to the list of known hosts.
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-ami/2017.09-release-notes/
+27 package(s) needed for security, out of 64 available
+Run "sudo yum update" to apply all updates.
+Amazon Linux version 2018.03 is available.
+
+[ec2-user@ip-192-168-1-213 ~]$
+
 ```
+6. Install and launch nginx to the public EC2 host:
+```bash
+[ec2-user@ip-192-168-1-213 ~]$ sudo yum -y install nginx
+[ec2-user@ip-192-168-1-213 ~]$ sudo service nginx start
+Starting nginx: [ OK ]
+```
+7. Make sure you can access the nginx server from your machine (see the following
+screenshot):
