@@ -67,5 +67,46 @@ When running Kubernetes in AWS, there are two possible integrations we could use
 Let's create a LoadBalancer Service with Pods underneath, which is what we learned in *Chapter 3, Playing with Containers*:
 ```bash
 # cat aws-service.yaml 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      run: nginx
+  template:
+    metadata:
+      labels:
+        run: nginx
+    spec:
+      containers:
+        - image: nginx
+          name: nginx
+          ports:
+            - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  type: LoadBalancer
+  selector:
+    run: nginx
+```
 
+In the preceding template, we declared one nginx Pod and associated it with the
+LoadBalancer service. The service will direct the packet to container port 80:
+```bash
+# kubectl create -f aws-service.yaml
+deployment.apps "nginx" created
+service "nginx" created
+```
+Let's describe our nginx Service:
+```bash
 ```
