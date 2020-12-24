@@ -336,9 +336,9 @@ $aws ec2 import-key-pair --key-name=chap6-key --public-key-material "`cat ~/.ssh
 *  T2.nano instance type: t2.nano
 *  Ssh key: chap6-key
 *  Public Subnet: subnet-0a94a1e951e6a151c
-*  Public Security Group: sg-0e746f70d741c4113
+*  Public Security Group: sg-0d3891ab3d2e782ce
 ```bash
-$ aws ec2 run-instances --image-id ami-1853ac65 --instance-type t2.nano --key-name chap6-key --security-group-ids sg-0e746f70d741c4113 --subnet-id subnet-0a94a1e951e6a151c
+$ aws ec2 run-instances --image-id ami-1853ac65 --instance-type t2.nano --key-name chap6-key --security-group-ids sg-0d3891ab3d2e782ce --subnet-id subnet-0a94a1e951e6a151c
 --------------------------------------------------
 {
     "Groups": [],
