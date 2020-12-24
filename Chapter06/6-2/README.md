@@ -6,10 +6,14 @@ installing procedure and delivers a production-level system. It targets to suppo
 cloud platforms, such as AWS, GCE, and VMware vSphere. In this recipe, we will talk 
 about how to run a Kubernetes cluster with kops.
 
+ps.目前 Kops 只支援 Linux 與 MacOS 平台，使用 Windows 的讀者，必須在本機上的跑起一個 Linux VM ，安裝 Kops 套件。
+
 ## Getting ready
 Before our major tutorial, we will need to install kops on to your local host. It is a 
 straightforward step for downloading the binary file and moving it to the system directory 
 of the execution file:
+
+
 ```bash
 // download the latest stable kops binary
 $ curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-linux-amd64
@@ -17,9 +21,15 @@ $ chmod +x kops-linux-amd64
 $ sudo mv kops-linux-amd64 /usr/local/bin/kops
 // verify the command is workable
 $ kops version
-Version 1.9.0 (git-cccd71e67)
+Version 1.18.2 (git-84495481e4)
 ```
+or  for windows
 
+```bash
+$  curl -LO https://github.com/kubernetes/kops/releases/download/$(curl -s https://api.github.com/repos/kubernetes/kops/releases/latest | grep tag_name | cut -d '"' -f 4)/kops-windows-amd64
+$ chmod +x kops-windows-amd64
+$ sudo mv kops-windows-amd64 /usr/local/bin/kops
+```
 
 Next, we have to prepare some AWS configuration on your host and required services for 
 cluster. Refer to the following items and make sure that they are ready:
