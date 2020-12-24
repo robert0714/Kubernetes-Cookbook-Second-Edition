@@ -74,8 +74,7 @@ We can easily run up a Kubernetes cluster using a single command with parameters
 Now we are ready to compose the configurations into a command and fire it:
 
 ```bash
-$ kops create cluster --name my-cluster.k8s-cookbook.net --state=s3://kubernetes-cookbook --zones us-east-1a --cloud aws --networkcidr
-10.0.0.0/16 --master-size t2.large --node-size t2.medium --node-count 2 --networking calico --topology private --ssh-public-key ~/.ssh/id_rsa.pub --bastion --yes
+$ kops create cluster --name my-cluster.k8s-cookbook.net --state=s3://kubernetes-cookbook --zones us-east-1a --cloud aws --network-cidr 10.0.0.0/16 --master-size t2.large --node-size t2.medium --node-count 2 --networking calico --topology private --ssh-public-key ~/.ssh/id_rsa.pub --bastion --yes
 
 ...
 I0408 15:19:21.794035 13144 executor.go:91] Tasks: 105 done / 105 total;
