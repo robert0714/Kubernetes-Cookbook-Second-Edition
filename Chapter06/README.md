@@ -322,3 +322,261 @@ $ aws ec2 describe-security-groups --filters "Name=vpc-id,Values=vpc-05ebce82711
 +-----------------------+-----------+
 
 ```
+
+## EC2
+Now you need to upload your ssh public key and then launch the EC2 instance on both the public subnet and the private subnet:  
+1. Upload your ssh public key (assume you have a public key that is located at *~/.ssh/id_rsa.pub* ):
+```bash
+$aws ec2 import-key-pair --key-name=chap6-key --public-key-material "`cat ~/.ssh/id_rsa.pub`"
+```
+
+2. Launch the first EC2 instance with the following parameters:
+
+*  Use Amazon Linux image: ami-1853ac65 (Amazon Linux)
+*  T2.nano instance type: t2.nano
+*  Ssh key: chap6-key
+*  Public Subnet: subnet-0a94a1e951e6a151c
+*  Public Security Group: sg-0e746f70d741c4113
+```bash
+$ aws ec2 run-instances --image-id ami-1853ac65 --instance-type t2.nano --key-name chap6-key --security-group-ids sg-0e746f70d741c4113 --subnet-id subnet-0a94a1e951e6a151c
+--------------------------------------------------
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-1853ac65",
+            "InstanceId": "i-0e9f5c78a1df96534",
+            "InstanceType": "t2.nano",
+            "KeyName": "chap6-key",
+            "LaunchTime": "2020-12-24T08:56:59+00:00",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-east-1b",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-192-168-1-213.ec2.internal",
+            "PrivateIpAddress": "192.168.1.213",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-0a94a1e951e6a151c",
+            "VpcId": "vpc-05ebce82711fe6a19",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "4c39da43-bd9c-4b63-8fca-d56cc4317a9c",
+            "EbsOptimized": false,
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2020-12-24T08:56:59+00:00",
+                        "AttachmentId": "eni-attach-0b184c004d77ae807",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching",
+                        "NetworkCardIndex": 0
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "default",
+                            "GroupId": "sg-0e746f70d741c4113"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "0e:90:4d:05:03:f5",
+                    "NetworkInterfaceId": "eni-02b4910f076245c15",
+                    "OwnerId": "662260156742",
+                    "PrivateIpAddress": "192.168.1.213",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateIpAddress": "192.168.1.213"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-0a94a1e951e6a151c",
+                    "VpcId": "vpc-05ebce82711fe6a19",
+                    "InterfaceType": "interface"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "default",
+                    "GroupId": "sg-0e746f70d741c4113"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            },
+            "CapacityReservationSpecification": {
+                "CapacityReservationPreference": "open"
+            },
+            "MetadataOptions": {
+                "State": "pending",
+                "HttpTokens": "optional",
+                "HttpPutResponseHopLimit": 1,
+                "HttpEndpoint": "enabled"
+            },
+            "EnclaveOptions": {
+                "Enabled": false
+            }
+        }
+    ],
+    "OwnerId": "662260156742",
+    "ReservationId": "r-0f99b4af64fb7402f"
+}
+```
+3. Launch the second EC2 instance with the following parameters:
+*  Use Amazon Linux image: ami-1853ac65
+*  T2.nano instance type: t2.nano
+*  Ssh key: chap6-key
+*  Private subnet: subnet-03f6120aec2780686
+*  Private Secuity Group: sg-046fe855b60b9bd49
+```
+$ aws ec2 run-instances --image-id ami-1853ac65 --instance-type t2.nano --key-name chap6-key --security-group-ids sg-046fe855b60b9bd49 --subnet-id  subnet-03f6120aec2780686
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-1853ac65",
+            "InstanceId": "i-0b029d431795edb40",
+            "InstanceType": "t2.nano",
+            "KeyName": "chap6-key",
+            "LaunchTime": "2020-12-24T09:00:39+00:00",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-east-1a",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-192-168-0-163.ec2.internal",
+            "PrivateIpAddress": "192.168.0.163",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-03f6120aec2780686",
+            "VpcId": "vpc-05ebce82711fe6a19",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "4e955d97-0aca-4eaa-9d4e-65f6a386db73",
+            "EbsOptimized": false,
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2020-12-24T09:00:39+00:00",
+                        "AttachmentId": "eni-attach-01f7eef2d9206b1ba",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching",
+                        "NetworkCardIndex": 0
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "private",
+                            "GroupId": "sg-046fe855b60b9bd49"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "0a:94:c1:02:11:f7",
+                    "NetworkInterfaceId": "eni-0d619b2ab7e7efb71",
+                    "OwnerId": "662260156742",
+                    "PrivateIpAddress": "192.168.0.163",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateIpAddress": "192.168.0.163"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-03f6120aec2780686",
+                    "VpcId": "vpc-05ebce82711fe6a19",
+                    "InterfaceType": "interface"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "private",
+                    "GroupId": "sg-046fe855b60b9bd49"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            },
+            "CapacityReservationSpecification": {
+                "CapacityReservationPreference": "open"
+            },
+            "MetadataOptions": {
+                "State": "pending",
+                "HttpTokens": "optional",
+                "HttpPutResponseHopLimit": 1,
+                "HttpEndpoint": "enabled"
+            },
+            "EnclaveOptions": {
+                "Enabled": false
+            }
+        }
+    ],
+    "OwnerId": "662260156742",
+    "ReservationId": "r-000a73bffe02f8407"
+}
+
+```
+4. Check the status of the EC2 instances:
+```bash
+$ aws ec2 describe-instances --filters "Name=vpc-id,Values=vpc-05ebce82711fe6a19" --query "Reservations[*].Instances[*].{id:InstanceId,PublicIP:PublicIpAddress,PrivateIP:PrivateIpAddress,Subnet:SubnetId}" --output=table
+--------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------
+|                                  DescribeInstances                                  |
++---------------+----------------+----------------------------+-----------------------+
+|   PrivateIP   |   PublicIP     |          Subnet            |          id           |
++---------------+----------------+----------------------------+-----------------------+
+|  192.168.0.163|  None          |  subnet-03f6120aec2780686  |  i-0b029d431795edb40  |
+|  192.168.1.213|  54.160.57.105 |  subnet-0a94a1e951e6a151c  |  i-0e9f5c78a1df96534  |
++---------------+----------------+----------------------------+-----------------------+
+
+```
+SSH (use the -A option to forward your authentication info) to the public EC2 host from your computer:
+```bash
+$ ssh -A ec2-user@54.160.57.105
+```
