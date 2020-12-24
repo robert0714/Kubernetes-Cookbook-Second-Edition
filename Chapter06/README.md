@@ -654,7 +654,8 @@ following diagram, which has the following:
     - public subnet: 192.168.0.0/24 route to IGW
     - private subnet: 192.168.1.0/24 route to NAT-GW
 - Two EC2 instances (public and private)
-- Two Security Groups (allow public http/ssh and private ssh)   
+- Two Security Groups (allow public http/ssh and private ssh)  
+
 Now, take a look at the diagram
 
 In this section, you have learned how to use AWS from scratch. We have covered its basic 
