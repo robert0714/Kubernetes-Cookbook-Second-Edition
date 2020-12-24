@@ -6,7 +6,6 @@ installing procedure and delivers a production-level system. It targets to suppo
 cloud platforms, such as AWS, GCE, and VMware vSphere. In this recipe, we will talk 
 about how to run a Kubernetes cluster with kops.
 
-ps.目前 Kops 只支援 Linux 與 MacOS 平台，使用 Windows 的讀者，必須在本機上的跑起一個 Linux VM ，安裝 Kops 套件。
 
 ## Getting ready
 Before our major tutorial, we will need to install kops on to your local host. It is a 
