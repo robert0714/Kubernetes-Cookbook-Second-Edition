@@ -641,4 +641,22 @@ Amazon Linux version 2018.03 is available.
 ```
 
 9. Make sure the private host can perform yum update via NAT-GW:
+```bash
 [ec2-user@ip-192-168-0-163 ~]$ sudo yum -y update
+```
+
+Congratulations! You can set up your own infrastructure on AWS, as shown in the 
+following diagram, which has the following:  
+*  One VPC with CIDR 192.168.0.0/16
+*  IGW
+*  NAT-GW
+*  Two Subnets
+        *  public subnet: 192.168.0.0/24 route to IGW
+        *  private subnet: 192.168.1.0/24 route to NAT-GW
+*  Two EC2 instances (public and private)
+*  Two Security Groups (allow public http/ssh and private ssh)   
+Now, take a look at the diagram
+
+In this section, you have learned how to use AWS from scratch. We have covered its basic 
+uses, but it is important to know while setup Kubernetes on AWS. Next, we will explore 
+how to set up Kubernetes on AWS.
