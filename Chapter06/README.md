@@ -604,3 +604,41 @@ Starting nginx: [ OK ]
 ```
 7. Make sure you can access the nginx server from your machine (see the following
 screenshot):
+
+8. SSH from the public host to the private host (you must use a private IP address):
+```bash
+$ ssh  192.168.0.163
+```
+if you encounter the error  
+"Warning: Permanently added '192.168.0.163' (ECDSA) to the list of known hosts.
+Permission denied (publickey). " .  
+You can scp the keys .
+```bash
+ scp id_rsa.pub ec2-user@54.82.226.36:~/.ssh/
+ scp id_rsa ec2-user@54.82.226.36:~/.ssh/
+$ ssh -A  ec2-user@54.82.226.36
+Last login: Thu Dec 24 10:18:50 2020 from 61-219-179-230.hinet-ip.hinet.net
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-ami/2018.03-release-notes/
+[ec2-user@ip-192-168-1-213 ~]$  chmod 0600   ~/.ssh/id_rs*.*
+[ec2-user@ip-192-168-1-213 ~]$  ssh  192.168.0.163
+Last login: Thu Dec 24 10:28:30 2020 from 192.168.1.213
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-ami/2017.09-release-notes/
+27 package(s) needed for security, out of 64 available
+Run "sudo yum update" to apply all updates.
+Amazon Linux version 2018.03 is available.
+[ec2-user@ip-192-168-0-163 ~]$
+
+```
+
+9. Make sure the private host can perform yum update via NAT-GW:
+[ec2-user@ip-192-168-0-163 ~]$ sudo yum -y update
